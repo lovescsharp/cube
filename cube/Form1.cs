@@ -38,8 +38,20 @@ namespace cube
             cy = Height / 2;
             cz = 0;
 
-            //map of connections betweem vertices
+
+            //actuall points
             cube = new List<Point>();
+            cube.Add(new Point(cx - size.Item1 / 2, cy + size.Item2 / 2, cz + size.Item1 / 2));
+            cube.Add(new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z));
+            cube.Add(new Point(cube[0].X, cube[0].Y - size.Item2, cube[0].Z));
+            cube.Add(new Point(cube[0].X + size.Item1, cube[0].Y - size.Item2, cube[0].Z));
+            
+            cube.Add(new Point(cube[0].X, cube[0].Y, cube[0].Z - size.Item1));
+            cube.Add(new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z - size.Item1));
+            cube.Add(new Point(cube[0].X, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
+            cube.Add(new Point(cube[0].X + size.Item1, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
+            
+            //map of connections betweem vertices
             connections = new List<(int, int)> { 
                 (0, 1), 
                 (0, 2), 
@@ -55,16 +67,29 @@ namespace cube
                 (6, 7)
             };
 
-            //actuall points
+            /* triangular prism
+            cube = new List<Point>();
             cube.Add(new Point(cx - size.Item1 / 2, cy + size.Item2 / 2, cz + size.Item1 / 2));
             cube.Add(new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z));
             cube.Add(new Point(cube[0].X, cube[0].Y - size.Item2, cube[0].Z));
             cube.Add(new Point(cube[0].X + size.Item1, cube[0].Y - size.Item2, cube[0].Z));
-            
-            cube.Add(new Point(cube[0].X, cube[0].Y, cube[0].Z - size.Item1));
-            cube.Add(new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z - size.Item1));
-            cube.Add(new Point(cube[0].X, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
-            cube.Add(new Point(cube[0].X + size.Item1, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
+
+            cube.Add(new Point(cx, cube[0].Y, cz - size.Item1 / 2));
+            cube.Add(new Point(cx, cube[0].Y - size.Item2, cz - size.Item1 / 2));
+
+            connections = new List<(int, int)>()
+            {
+                (0, 1),
+                (0, 2),
+                (0, 4),
+                (1, 3),
+                (1, 4),
+                (2, 3),
+                (2, 5),
+                (3, 5),
+                (4, 5)
+            };
+            */
 
             //instead of using delay, timer would make it possible to "rotate a cube throughout the time"
             t = new Timer();
