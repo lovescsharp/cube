@@ -39,7 +39,6 @@ namespace cube
 
             //cube
             //actuall points
-            
             cube = new List<Point>();
             cube.Add(new Point(cx - size.Item1 / 2, cy + size.Item2 / 2, cz + size.Item1 / 2));
             cube.Add(new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z));
@@ -71,47 +70,55 @@ namespace cube
             /*heart
             cube = new List<Point>();
             float A = cz + 75;
-            cube.Add(new Point(cx, cy + 175f, A));
-            cube.Add(new Point(cx + 150, cy + 250, A));
-            cube.Add(new Point(cx + 300, cy + 250, A));
-            cube.Add(new Point(cx + 400, cy + 200, A));
-            cube.Add(new Point(cx + 425, cy + 100, A));
+            cube.Add(new Point(cx, cy - 175f, A));
+            cube.Add(new Point(cx + 150, cy - 250, A));
+            cube.Add(new Point(cx + 300, cy - 250, A));
+            cube.Add(new Point(cx + 400, cy - 200, A));
+            cube.Add(new Point(cx + 425, cy - 100, A));
             cube.Add(new Point(cx + 425, cy, A));
-            cube.Add(new Point(cx + 375, cy - 100, A));
-            cube.Add(new Point(cx + 300, cy - 200, A));
-            cube.Add(new Point(cx + 200, cy - 275, A));
-            cube.Add(new Point(cx + 100, cy - 325, A));
-            cube.Add(new Point(cx, cy - 375, A));
-            cube.Add(new Point(cx - 100, cy - 325, A));
-            cube.Add(new Point(cx - 200, cy - 275, A));
-            cube.Add(new Point(cx - 300, cy - 200, A));
-            cube.Add(new Point(cx - 375, cy - 100, A));
+            cube.Add(new Point(cx + 375, cy + 100, A));
+            cube.Add(new Point(cx + 300, cy + 200, A));
+            cube.Add(new Point(cx + 200, cy + 275, A));
+            cube.Add(new Point(cx + 100, cy + 325, A));
+            cube.Add(new Point(cx, cy + 375, A));
+            cube.Add(new Point(cx - 100, cy + 325, A));
+            cube.Add(new Point(cx - 200, cy + 275, A));
+            cube.Add(new Point(cx - 300, cy + 200, A));
+            cube.Add(new Point(cx - 375, cy + 100, A));
             cube.Add(new Point(cx - 425, cy, A));
-            cube.Add(new Point(cx - 425, cy + 100, A));
-            cube.Add(new Point(cx - 400, cy + 200, A));
-            cube.Add(new Point(cx - 300, cy + 250, A));
-            cube.Add(new Point(cx - 150, cy + 250, A));
+            cube.Add(new Point(cx - 425, cy - 100, A));
+            cube.Add(new Point(cx - 400, cy - 200, A));
+            cube.Add(new Point(cx - 300, cy - 250, A));
+            cube.Add(new Point(cx - 150, cy - 250, A));
 
-            cube.Add(new Point(cx, cy + 175f, -A));
-            cube.Add(new Point(cx + 150, cy + 250, -A));
-            cube.Add(new Point(cx + 300, cy + 250, -A));
-            cube.Add(new Point(cx + 400, cy + 200, -A));
-            cube.Add(new Point(cx + 425, cy + 100, -A));
+            cube.Add(new Point(cx, cy - 175f, -A));
+            cube.Add(new Point(cx + 150, cy - 250, -A));
+            cube.Add(new Point(cx + 300, cy - 250, -A));
+            cube.Add(new Point(cx + 400, cy - 200, -A));
+            cube.Add(new Point(cx + 425, cy - 100, -A));
             cube.Add(new Point(cx + 425, cy, -A));  
-            cube.Add(new Point(cx + 375, cy - 100, -A));
-            cube.Add(new Point(cx + 300, cy - 200, -A));
-            cube.Add(new Point(cx + 200, cy - 275, -A));
-            cube.Add(new Point(cx + 100, cy - 325, -A));
-            cube.Add(new Point(cx, cy - 375, -A));  
-            cube.Add(new Point(cx - 100, cy - 325, -A));
-            cube.Add(new Point(cx - 200, cy - 275, -A));
-            cube.Add(new Point(cx - 300, cy - 200, -A));
-            cube.Add(new Point(cx - 375, cy - 100, -A));
+            cube.Add(new Point(cx + 375, cy + 100, -A));
+            cube.Add(new Point(cx + 300, cy + 200, -A));
+            cube.Add(new Point(cx + 200, cy + 275, -A));
+            cube.Add(new Point(cx + 100, cy + 325, -A));
+            cube.Add(new Point(cx, cy + 375, -A));  
+            cube.Add(new Point(cx - 100, cy + 325, -A));
+            cube.Add(new Point(cx - 200, cy + 275, -A));
+            cube.Add(new Point(cx - 300, cy + 200, -A));
+            cube.Add(new Point(cx - 375, cy + 100, -A));
             cube.Add(new Point(cx - 425, cy, -A));  
-            cube.Add(new Point(cx - 425, cy + 100, -A));
-            cube.Add(new Point(cx - 400, cy + 200, -A));
-            cube.Add(new Point(cx - 300, cy + 250, -A));
-            cube.Add(new Point(cx - 150, cy + 250, -A));
+            cube.Add(new Point(cx - 425, cy - 100, -A));
+            cube.Add(new Point(cx - 400, cy - 200, -A));
+            cube.Add(new Point(cx - 300, cy - 250, -A));
+            cube.Add(new Point(cx - 150, cy - 250, -A));
+
+            for (int i = 0; i < cube.Count; i++)
+            {
+                cube[i].X = (cube[i].X - cx) / 2 + cx;
+                cube[i].Y = (cube[i].Y - cy) / 2 + cy;
+                cube[i].Z = (cube[i].Z - cz) / 2 + cz;
+            }
+            
 
             connections = new List<(int, int)> { 
                 (0, 1),
@@ -190,7 +197,7 @@ namespace cube
         {
             for (int i = 0; i < cube.Count; i++)
             {
-                rotate(cube[i], 0.01f, 0.04f, 0.02f);
+                rotate(cube[i], 0.03f, 0.02f, 0.01f);
             }
             Invalidate();
         }
@@ -230,6 +237,7 @@ namespace cube
             cx = Width / 2;
             cy = Height / 2;
             cz = 0;
+
             
             cube[0] = (new Point(cx - size.Item1 / 2, cy + size.Item2 / 2, cz + size.Item1 / 2));
             cube[1] = (new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z));
@@ -240,7 +248,7 @@ namespace cube
             cube[5] = (new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z - size.Item1));
             cube[6] = (new Point(cube[0].X, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
             cube[7] = (new Point(cube[0].X + size.Item1, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
-           
+            
 
             /* heart
             float A = cz + 75;
@@ -285,6 +293,13 @@ namespace cube
             cube[37] = new Point(cx - 400, cy + 200, -A);
             cube[38] = new Point(cx - 300, cy + 250, -A);
             cube[39] = new Point(cx - 150, cy + 250, -A);
+
+            for (int i = 0; i < cube.Count; i++)
+            {
+                cube[i].X = (cube[i].X - cx) / 2 + cx;
+                cube[i].Y = (cube[i].Y - cy) / 2 + cy;
+                cube[i].Z = (cube[i].Z - cz) / 2 + cz;
+            }
             */
         }
     }
