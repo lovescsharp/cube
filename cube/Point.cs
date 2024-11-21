@@ -17,5 +17,6 @@ namespace cube
             Y = y;
             Z = z;
         }
+        public override string ToString() => $"({X.ToString()}, {Y.ToString()}, {Z.ToString()})";
     }
 }
