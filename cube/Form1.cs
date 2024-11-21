@@ -65,9 +65,8 @@ namespace cube
                 (5, 7),
                 (6, 7)
             };
-            
 
-            /*heart
+            /*heart 
             cube = new List<Point>();
             float A = cz + 75;
             cube.Add(new Point(cx, cy - 175f, A));
@@ -238,7 +237,6 @@ namespace cube
             cy = Height / 2;
             cz = 0;
 
-            
             cube[0] = (new Point(cx - size.Item1 / 2, cy + size.Item2 / 2, cz + size.Item1 / 2));
             cube[1] = (new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z));
             cube[2] = (new Point(cube[0].X, cube[0].Y - size.Item2, cube[0].Z));
@@ -248,7 +246,6 @@ namespace cube
             cube[5] = (new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z - size.Item1));
             cube[6] = (new Point(cube[0].X, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
             cube[7] = (new Point(cube[0].X + size.Item1, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
-            
 
             /* heart
             float A = cz + 75;
