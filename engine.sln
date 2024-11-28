@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cube", "cube\cube.csproj", "{0FBE5370-DA3D-4B01-BC1F-D0AF185EF9A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "engine", "cube\engine.csproj", "{0FBE5370-DA3D-4B01-BC1F-D0AF185EF9A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

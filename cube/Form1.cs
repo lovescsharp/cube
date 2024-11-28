@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace cube
+namespace engine
 {
     public partial class Form1 : Form
     {
-        Brush b = new SolidBrush(Color.BlueViolet);
-
         List<Point> cube;
-        int s = 120; //define size of the cube
-        (int, int) size;
+        float s = 120; //define size of the cube
+        float r = 100; //radius for constructing polygons
+        (float, float) size;
 
         float cx, cy, cz;
         float dx, dy, dz;
@@ -20,14 +20,19 @@ namespace cube
         float tempx, tempy = 0;
 
         List<(int, int)> connections;
+        List<(int, int, int)> triangles;
+        List<(int, int, int)> sqaures;
         float rad;
         Timer t;
+        Stopwatch sw;
 
         public Form1()
         {
             InitializeComponent();
             DoubleBuffered = true;
-            BackColor = Color.Black;
+
+            BackColor = Color.White;
+            TransparencyKey = Color.White;
 
             size = (s, s);
 
@@ -36,8 +41,7 @@ namespace cube
             cy = Height / 2;
             cz = 0;
 
-
-            //cube
+            /*cube
             //actuall points
             cube = new List<Point>();
             cube.Add(new Point(cx - size.Item1 / 2, cy + size.Item2 / 2, cz + size.Item1 / 2));
@@ -65,6 +69,7 @@ namespace cube
                 (5, 7),
                 (6, 7)
             };
+            */
 
             /*heart 
             cube = new List<Point>();
@@ -183,10 +188,71 @@ namespace cube
             };
             */
 
+            /*The Sims' plumbob or hexagonal bipyramid (⌐⊙_⊙)*/
+            cube = new List<Point>();
+            rad = (float) Math.PI / 3; //internal angle in a hexagon
+            cube.Add(new Point(r,0,0));
+            cube.Add(new Point((float) (r - r * Math.Cos(rad)), 0, (float) (r * Math.Sin(rad))));
+            cube.Add(new Point(-cube[1].X, 0, cube[1].Z));
+            cube.Add(new Point(-r, 0, 0));
+            cube.Add(new Point(-cube[1].X, 0, -cube[1].Z));
+            cube.Add(new Point(cube[1].X, 0, -cube[1].Z));
+            cube.Add(new Point(0, r * 2, 0));
+            cube.Add(new Point(0, -r * 2, 0));
+
+            foreach (Point p in cube)
+            {
+                p.X += cx;
+                p.Y += cy;
+                p.Z += cz;
+            }
+
+            connections = new List<(int, int)>
+            {
+                (0, 1),
+                (1, 2),
+                (2, 3),
+                (3, 4),
+                (4, 5),
+                (5, 0),
+                (6, 0),
+                (6, 1),
+                (6, 2),
+                (6, 3),
+                (6, 4),
+                (6, 5),
+                (7, 0),
+                (7, 1),
+                (7, 2),
+                (7, 3),
+                (7, 4),
+                (7, 5)
+            };
+
+            triangles = new List<(int, int, int)>
+            {
+                (0, 1, 6),
+                (1, 2, 6),
+                (2, 3, 6),
+                (3, 4, 6),
+                (4, 5, 6),
+                (5, 0, 6),
+
+                (0, 1, 7),
+                (1, 2, 7),
+                (2, 3, 7),
+                (3, 4, 7),
+                (4, 5, 7),
+                (5, 0, 7)
+            };
+
             //instead of using delay, timer would make it possible to "rotate a cube throughout the time"
             t = new Timer();
             t.Interval = 100;
             t.Tick += tick;
+
+            sw = new Stopwatch();
+            sw.Start();
 
             Resize += resize;
 
@@ -196,11 +262,12 @@ namespace cube
         {
             for (int i = 0; i < cube.Count; i++)
             {
-                rotate(cube[i], 0.03f, 0.02f, 0.01f);
+                rotate(cube[i], 0, 0.04f, 0);
+                cube[i].Y += (float) (5*Math.Sin(sw.ElapsedMilliseconds / 1000));
             }
             Invalidate();
         }
-        private void rotate(Point p, float ax = 1, float ay = 1, float az = 1) // the rotation function using rotation matrices in 3d
+        private void rotate(Point p, float ax, float ay, float az)
         {
             tempy = p.Y;
             rad = ax;
@@ -220,6 +287,7 @@ namespace cube
         protected override void OnPaint(PaintEventArgs e) //draw pixels
         {
             base.OnPaint(e);
+            for (int i = 0; i < triangles.Count; i++) e.Graphics.FillPolygon(new SolidBrush(Color.Green), new PointF[] { new PointF(cube[triangles[i].Item1].X, cube[triangles[i].Item1].Y), new PointF(cube[triangles[i].Item2].X, cube[triangles[i].Item2].Y), new PointF(cube[triangles[i].Item3].X, cube[triangles[i].Item3].Y) });
             for (int i = 0; i < connections.Count; i++) draw_line(cube[connections[i].Item1], cube[connections[i].Item2], e);
         }
         private void draw_line(Point p1, Point p2, PaintEventArgs e) //
@@ -229,7 +297,7 @@ namespace cube
             dz = p2.Z - p1.Z;
             length = (float)Math.Sqrt(dx * dx + dy * dy);
             m = (float)Math.Atan2(dy, dx);
-            for (int i = 0; i < length; i++) e.Graphics.FillRectangle(b, p1.X + (float)(Math.Cos(m) * i), p1.Y + (float)(Math.Sin(m) * i), 1, 1);
+            for (int i = 0; i < length; i++) e.Graphics.FillRectangle(new SolidBrush(Color.Black), p1.X + (float)(Math.Cos(m) * i), p1.Y + (float)(Math.Sin(m) * i), 1, 1);
         }
         private void resize(object sender, EventArgs e)
         {
@@ -237,6 +305,7 @@ namespace cube
             cy = Height / 2;
             cz = 0;
 
+            /* cube
             cube[0] = (new Point(cx - size.Item1 / 2, cy + size.Item2 / 2, cz + size.Item1 / 2));
             cube[1] = (new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z));
             cube[2] = (new Point(cube[0].X, cube[0].Y - size.Item2, cube[0].Z));
@@ -246,6 +315,25 @@ namespace cube
             cube[5] = (new Point(cube[0].X + size.Item1, cube[0].Y, cube[0].Z - size.Item1));
             cube[6] = (new Point(cube[0].X, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
             cube[7] = (new Point(cube[0].X + size.Item1, cube[0].Y - size.Item2, cube[0].Z - size.Item1));
+            */
+
+            /* plumbob */
+            rad = (float) Math.PI / 3;
+            cube[0] = (new Point(r, 0, 0));
+            cube[1] = (new Point((float)(r - r * Math.Cos(rad)), 0, (float)(r * Math.Sin(rad))));
+            cube[2] = (new Point(-cube[1].X, 0, cube[1].Z));
+            cube[3] = (new Point(-r, 0, 0));
+            cube[4] = (new Point(-cube[1].X, 0, -cube[1].Z));
+            cube[5] = (new Point(cube[1].X, 0, -cube[1].Z));
+            cube[6] = (new Point(0, r * 2, 0));
+            cube[7] = (new Point(0, -r * 2, 0));
+
+            foreach (Point p in cube)
+            {
+                p.X += cx;
+                p.Y += cy;
+                p.Z += cz;
+            }
 
             /* heart
             float A = cz + 75;
